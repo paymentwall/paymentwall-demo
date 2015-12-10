@@ -1,0 +1,20 @@
+body {
+    width:80%;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+table {
+    overflow: hidden;
+    table-layout: fixed;
+    width: 1200px;
+    word-wrap: break-word;
+}
+
+th {
+    font-size: 14px;
+}
+
+td {
+    font-size: 12px;
+}

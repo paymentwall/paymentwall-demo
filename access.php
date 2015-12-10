@@ -47,20 +47,9 @@ $body = json_decode($res->getBody());
 <html>
 <head>
     <title>My Access</title>
-    <style type="text/css">
-        body
-        {
-            width:80%;
-            margin-right:auto;
-            margin-left:auto;
-        }
-        table {
-            overflow: hidden;
-            table-layout: fixed;
-            width: 1200px;
-            word-wrap: break-word;
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/access.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -80,9 +69,10 @@ $body = json_decode($res->getBody());
 <?php
 
 echo "<h4>Projects:</h4>";
-echo "<table border='1'>";
+echo "<table class='table table-responsive table-bordered'>";
 
     foreach (array_keys((array)$body[0]) as $key) {
+        $key = str_replace("_", " ", $key);
         echo "<th>" . $key . "</th>";
     }
     $body = array_values($body);
