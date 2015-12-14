@@ -15,7 +15,7 @@ if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
             'code'              => $code,
             'resource_owner_id' => '25bdb52fc296eb08162e65aefcec0cac',
             'client_secret'     => '66393550cf90a40dec45aae7ff7a4dc1',
-            'redirect_uri'      => 'http://localhost:8080/access.php'
+            'redirect_uri'      => $_SERVER['HTTP_HOST'] . '/access.php'
         ]);
 
         $_SESSION['token'] = $accessToken->getToken();
