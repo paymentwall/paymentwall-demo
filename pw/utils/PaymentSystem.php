@@ -6,12 +6,12 @@ class PaymentSystem {
 		$parameters = array(
 			'country_code' => $country['code'],
 			'key' => PUBLIC_KEY,
-			'sign_version' => SIGNATURE_VERSION
+			'sign_version' => 2
 		);
 
 		$parameters['sign'] = (new Paymentwall_Signature_Widget())->calculate(
 		    $parameters,
-		    SIGNATURE_VERSION
+		    2
 		);
 
 		$url = 'https://api.paymentwall.com/api/payment-systems/?' . http_build_query($parameters);
