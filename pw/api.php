@@ -42,7 +42,7 @@
                 Paymentwall_Product::TYPE_FIXED
             )
         ),
-        array('ps' => $_POST['option'], 'email' => 'useeeer@example.com', 'any_custom_parameter' => 'value', 'sign_version' => $body->signature_version)
+        array('ps' => $_POST['option'], 'email' => 'user@example.com', 'any_custom_parameter' => 'value', 'sign_version' => $body->signature_version)
     );
     $response_array['widget'] = $widget->getHtmlCode();
 
