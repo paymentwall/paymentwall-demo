@@ -3,7 +3,7 @@
 require('vendor/autoload.php');
 
 $provider = new \League\OAuth2\Client\Provider\GenericProvider([
-    'clientId'                => '25bdb52fc296eb08162e65aefcec0cac',    // The client ID assigned to you by the Provider
+    'clientId'                => 'YOUR_CLIENT_ID',    // The client ID assigned to you by the Provider
     'redirectUri'             => 'http://' . $_SERVER['HTTP_HOST'] . '/access.php',
     'urlAuthorize'            => 'https://api.paymentwall.com/pwaccount/oauth/authorize',
     'urlAccessToken'          => 'https://api.paymentwall.com/pwaccount/oauth/token',
