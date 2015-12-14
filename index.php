@@ -3,6 +3,9 @@ session_start();
 
 include('provider.php');
 
+var_dump($_SERVER['HTTP_HOST'] . '/access.php');
+die;
+
 // Fetch the authorization URL from the provider; this returns the
 // urlAuthorize option and generates and applies any necessary parameters
 // (e.g. state).
