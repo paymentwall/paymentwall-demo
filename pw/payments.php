@@ -24,8 +24,6 @@
         $ip = $_SERVER['REMOTE_ADDR'];
     }
 
-	$ip = $_SERVER['REMOTE_ADDR'];
-
 	$locator = new GeoLocator;
 	$country = $locator->locate($ip);
 
