@@ -16,13 +16,7 @@
 		Locates user via GeoLocation API
 	*/
 
-	if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $ip = trim(end($ipAddresses));
-    }
-    else {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    }
+	$ip = $_SERVER['REMOTE_ADDR'];
 
 	$locator = new GeoLocator;
 	$country = $locator->locate($ip);
