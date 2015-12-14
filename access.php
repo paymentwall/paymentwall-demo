@@ -80,9 +80,21 @@ echo "<table class='table table-responsive table-bordered'>";
     for ($i=0; $i < count($body); $i++) {
         $array = array_values((array)$body[$i]);
         echo "<tr>";
-        for ($j=0; $j < 10; $j++) { 
+        for ($j=0; $j < sizeof($array); $j++) {
             echo "<td>";
             echo $array[$j];
+            if ($j == 0) {
+                echo '<br>';
+                echo '
+                <form action="pw/payments.php" method="POST" name="' . time() . '">
+                    <input type="hidden" name="id" value="' . $array[1] . '">
+                    <input type="hidden" name="public_key" value="' . $array[2] . '">
+                    <input type="hidden" name="private_key" value="' . $array[3] . '">
+                    <input type="hidden" name="signature_version" value="' . $array[5] . '">
+                    <input type="hidden" name="api_type" value="' . $array[7] . '">
+                    <input type="submit" value="Test payments">
+                </form>';
+            }
             echo "</td>";
         }
         echo "</tr>";
