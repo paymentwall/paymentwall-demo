@@ -1,0 +1,30 @@
+{
+	"name": "paymentwall-bridge-demo",
+	"description": "Paymentwall OAuth Demo with GeoLocation, Payment Systems API, widget call and Brick API",
+	"version": "1.0.0",
+	"keywords": [
+		"paymentwall",
+		"api",
+		"payments",
+		"carrier billing",
+		"credit cards",
+		"alternative payments",
+		"monetization",
+		"recurring billing",
+		"payment processing"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Paymentwall Team",
+			"email": "devsupport@paymentwall.com"
+		}
+	],
+	"require": {
+		"php": ">=5.2",
+		"ext-curl": "*",
+		"ext-json": "*",
+		"paymentwall/paymentwall-php": "*",
+		"league/oauth2-client": "*"
+	}
+}

@@ -2,7 +2,7 @@
     session_start();
     header('Content-type: application/json');
     require_once('utils/bootstrap.php');
-    require_once('../oauth2-client/vendor/autoload.php');
+    require_once('../vendor/autoload.php');
 
     $client = new GuzzleHttp\Client();
 

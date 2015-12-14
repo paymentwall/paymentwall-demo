@@ -1,6 +1,6 @@
 <?php
 
-require_once('vendor/lib/paymentwall.php');
+require_once('../vendor/autoload.php');
 
 Paymentwall_Config::getInstance()->set(array(
     'api_type' => API_TYPE,
