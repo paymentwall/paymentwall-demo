@@ -13,7 +13,7 @@ try {
     		'name' => $_POST['name'], 'url' => $_POST['url'], 'pingback_url' => $_POST['pingback_url']]
     ]);
 
-    header('Location: localhost:8080/access.php?state=' . $_POST['state'] . '&status=success');
+    header('Location: ' .  $_SERVER['HTTP_HOST'] . '/access.php' . '?state=' . $_POST['state'] . '&status=success');
     exit;
 
 } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {

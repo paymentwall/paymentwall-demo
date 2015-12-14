@@ -27,7 +27,7 @@ if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
     } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
 
         // Failed to get the access token or user details.
-        header('Location: localhost:8080/index.php');
+        header('Location: ' . $_SERVER['HTTP_HOST'] . '/index.php');
         exit;
 
     }
