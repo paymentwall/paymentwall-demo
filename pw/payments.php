@@ -31,8 +31,15 @@
 		Pulls list of payment system options available for this country via Payment Systems API
 	*/
 
-	$paymentSystems = new PaymentSystem;
-	$list = $paymentSystems->getPaymentSystemsFor($country);
+	try {
+
+		$paymentSystems = new PaymentSystem;
+		$list = $paymentSystems->getPaymentSystemsFor($country);
+		
+	} catch (Exception $e) {
+
+		exit($e->getMessage());		
+	}
 
 ?>
 

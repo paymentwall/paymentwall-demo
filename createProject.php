@@ -13,8 +13,9 @@ try {
     		'name' => $_POST['name'], 'url' => $_POST['url'], 'pingback_url' => $_POST['pingback_url']]
     ]);
 
-    header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . '/access.php' . '?state=' . $_POST['state'] . '&status=success');
-    exit;
+    header("Refresh: 2; url=access.php" . '?state=' . $_POST['state'] . '&code=' . $_SESSION['code']);
+ 
+	echo 'New Project Created!!';
 
 } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
 

@@ -19,7 +19,9 @@ class PaymentSystem {
 		// Mock list
 		// $result = file_get_contents(dirname(__FILE__).'/mock');
 
-		$result = file_get_contents($url);
+		$result = @file_get_contents($url);
+
+		if (!$result) throw new Exception("Error!");
 		
 		$paymentSystems = json_decode($result, true);
 

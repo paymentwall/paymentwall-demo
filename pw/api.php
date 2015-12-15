@@ -31,7 +31,7 @@
     $response_array['test'] = $body;
 
     $widget = new Paymentwall_Widget(
-        'user@example.com',
+        'usefr@example.com',
         'p1_1',
         array(
             new Paymentwall_Product(

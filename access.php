@@ -6,32 +6,34 @@ include('provider.php');
 $state = $_GET['state'];
 
 $code = $_GET['code'];
-try {
-    // Try to get an access token using the authorization code grant.
-    $accessToken = $provider->getAccessToken('authorization_code', [
-        'code'              => $code,
-        'resource_owner_id' => 'e14323f11ea9326b5b38b9f6ce999931',
-        'client_secret'     => '8caa51ff0af65e89c0c48b8bc33a1260',
-        'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/access.php'
-    ]);
 
-    $_SESSION['token'] = $accessToken->getToken();
-    $_SESSION['code']  = $_GET['code'];
+if(!isset($_SESSION['token'])) {
+    try {
+        // Try to get an access token using the authorization code grant.
+        $accessToken = $provider->getAccessToken('authorization_code', [
+            'code'              => $code,
+            'resource_owner_id' => 'e14323f11ea9326b5b38b9f6ce999931',
+            'client_secret'     => '8caa51ff0af65e89c0c48b8bc33a1260',
+            'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/access.php'
+        ]);
 
-    // We have an access token, which we may use in authenticated
-    // requests against the service provider's API.
+        $_SESSION['token'] = $accessToken->getToken();
+        $_SESSION['code']  = $_GET['code'];
 
-} catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        // We have an access token, which we may use in authenticated
+        // requests against the service provider's API.
 
-    // Failed to get the access token or user details.
-    echo $e->getMessage();
-    exit;
+    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+
+        // Failed to get the access token or user details.
+        exit($e->getMessage());
+    }    
 }
 
 $client = new GuzzleHttp\Client();
 
 $res = $client->get('https://api.paymentwall.com/pwapi/merchant/application', [
-    'query' => ['access_token' => $accessToken->getToken(), 'version' => '1']
+    'query' => ['access_token' => $_SESSION['token'], 'version' => '1']
 ]);
 
 $body = json_decode($res->getBody());
