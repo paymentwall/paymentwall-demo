@@ -15,3 +15,5 @@ $ composer install
 ```
 
 3 - Run the app on your server
+
+*Enable "evaluation mode" in your project's settings
