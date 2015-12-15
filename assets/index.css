@@ -1,3 +1,12 @@
 body {
-	background: #303237;
+	background-color: #ECECEC;
+}
+
+#yellow {
+	background-color: #ffc03a;
+}
+
+.middle {
+	width: 245px;
+	margin: 0 auto;
 }

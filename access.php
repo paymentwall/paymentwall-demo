@@ -3,37 +3,30 @@ session_start();
 
 include('provider.php');
 
-if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
-    unset($_SESSION['oauth2state']);
-    exit('Invalid state');
+$state = $_GET['state'];
 
-} else {
-    $code = $_GET['code'];
-    try {
-        // Try to get an access token using the authorization code grant.
-        $accessToken = $provider->getAccessToken('authorization_code', [
-            'code'              => $code,
-            'resource_owner_id' => '25bdb52fc296eb08162e65aefcec0cac',
-            'client_secret'     => '66393550cf90a40dec45aae7ff7a4dc1',
-            'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/access.php'
-        ]);
+$code = $_GET['code'];
+try {
+    // Try to get an access token using the authorization code grant.
+    $accessToken = $provider->getAccessToken('authorization_code', [
+        'code'              => $code,
+        'resource_owner_id' => 'e14323f11ea9326b5b38b9f6ce999931',
+        'client_secret'     => '8caa51ff0af65e89c0c48b8bc33a1260',
+        'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/access.php'
+    ]);
 
-        $_SESSION['token'] = $accessToken->getToken();
-        $_SESSION['code']  = $_GET['code'];
+    $_SESSION['token'] = $accessToken->getToken();
+    $_SESSION['code']  = $_GET['code'];
 
-        // We have an access token, which we may use in authenticated
-        // requests against the service provider's API.
+    // We have an access token, which we may use in authenticated
+    // requests against the service provider's API.
 
-    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+} catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
 
-        // Failed to get the access token or user details.
-        header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . '/index.php');
-        exit;
-
-    }
-
+    // Failed to get the access token or user details.
+    echo $e->getMessage();
+    exit;
 }
-
 
 $client = new GuzzleHttp\Client();
 
@@ -46,6 +39,7 @@ $body = json_decode($res->getBody());
 ?>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>My Access</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/access.css">
@@ -92,7 +86,7 @@ echo "<table class='table table-responsive table-bordered'>";
                     <input type="hidden" name="private_key" value="' . $array[3] . '">
                     <input type="hidden" name="signature_version" value="' . $array[5] . '">
                     <input type="hidden" name="api_type" value="' . $array[7] . '">
-                    <input type="submit" value="Test payments">
+                    <input type="submit" class="button" value="Test payments">
                 </form>';
             }
             echo "</td>";

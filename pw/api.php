@@ -32,7 +32,7 @@
 
     $widget = new Paymentwall_Widget(
         'user@example.com',
-        'p2',
+        'p1_1',
         array(
             new Paymentwall_Product(
                 'product301',                           

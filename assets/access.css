@@ -18,3 +18,9 @@ th {
 td {
     font-size: 12px;
 }
+
+.button {
+	padding: 2 1 2 0;
+    font-size: 13;
+    margin-top: 10;
+}
