@@ -19,8 +19,7 @@
 	if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
         $ip = trim(end($ipAddresses));
-    }
-    else {
+    } else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
 
@@ -75,7 +74,7 @@
 				</div>				
 			</div>
 			<div id="loading" class="loading">
-			<img src="../assets/img/loading.gif">
+			<img src="assets/img/loading.gif">
 			</div>
 			<div id="iframe">
 

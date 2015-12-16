@@ -9,7 +9,7 @@ $(function(){
 			    amount: 9.99,
 			    currency: 'USD',
 			    container: 'iframe',
-			    action: 'brick.php',
+			    action: 'pw/brick.php',
 			    form: {
 			      merchant: 'Merchant Name',
 			      product: 'Product Name',
@@ -29,18 +29,18 @@ $(function(){
 	 		$.ajax({
 			   type: 'POST',
 			   data : {option: option},
-			   url:'api.php',
+			   url:'pw/api.php',
 		  	   beforeSend: function() {
 		  	   	 $("#iframe").hide();
 		  	     $('#loading').show(); 
 		  	   },
 			   success: function(data){
-			   		$('#loading').hide();
 			        if(data.status == 'success'){
 				        $("#iframe").html(data['widget']);
 				    }else if(data.status == 'error'){
 				        $("#iframe").html("Error");
 				    }
+			   		$('#loading').hide();
 				    $("#iframe").show();
 			   }
 			});			

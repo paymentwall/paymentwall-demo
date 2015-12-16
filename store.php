@@ -1,9 +1,41 @@
 <?php
 session_start();
-unset($_SESSION['token']);
 
 require_once('pw/utils/bootstrap.php');
 include('provider.php');
+
+$code = $_GET['code'];
+
+if(!isset($_SESSION['token'])) {
+    try {
+        // Try to get an access token using the authorization code grant.
+        $accessToken = $provider->getAccessToken('authorization_code', [
+            'code'              => $code,
+            'resource_owner_id' => PUBLIC_KEY,
+            'client_secret'     => PRIVATE_KEY,
+            'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/store.php'
+        ]);
+
+        $_SESSION['token'] = $accessToken->getToken();
+        $_SESSION['code']  = $code;
+
+        // We have an access token, which we may use in authenticated
+        // requests against the service provider's API.
+
+    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+
+        // Failed to get the access token or user details.
+        exit($e->getMessage());
+    }    
+}
+
+$client = new GuzzleHttp\Client();
+
+$res = $client->get('https://api.paymentwall.com/pwapi/merchant/application', [
+    'query' => ['access_token' => $_SESSION['token'], 'version' => '1']
+]);
+
+$body = json_decode($res->getBody());
 
 // Fetch the authorization URL from the provider; this returns the
 // urlAuthorize option and generates and applies any necessary parameters
