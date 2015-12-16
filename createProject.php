@@ -3,7 +3,6 @@ session_start();
 
 include('provider.php');
 
-
 try {
 
     $client = new GuzzleHttp\Client();

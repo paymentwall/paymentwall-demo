@@ -62,10 +62,12 @@
 				<div>
 					<h1>Payment methods:</h1>
 				</div>
-				<div class="grey">
+				<div class="blue">
 					<?php foreach ($list as $value): ?>
 						<div class="option">
-							<img src="<?php echo $value['img_url'] ?>">
+							<div>
+								<img src="<?php echo $value['img_url'] ?>">								
+							</div>
 							<p><?php echo $value['name'] ; ?></p>
 							<input type="radio" name="radio" value="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>">					
 						</div>			

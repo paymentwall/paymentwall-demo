@@ -3,8 +3,6 @@ session_start();
 
 include('provider.php');
 
-$state = $_GET['state'];
-
 $code = $_GET['code'];
 
 if(!isset($_SESSION['token'])) {
@@ -18,7 +16,7 @@ if(!isset($_SESSION['token'])) {
         ]);
 
         $_SESSION['token'] = $accessToken->getToken();
-        $_SESSION['code']  = $_GET['code'];
+        $_SESSION['code']  = $code;
 
         // We have an access token, which we may use in authenticated
         // requests against the service provider's API.
