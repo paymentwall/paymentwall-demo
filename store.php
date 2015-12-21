@@ -106,7 +106,7 @@ if (isset($_GET['id'])) {
 	<body>
 	<div class="wrapper">
 			<div class="middle">
-				<a href="/create.php">
+				<a href="/createProject.php">
 					<button id="yellow" type="button" class="btn btn-default btn-lg">
 					    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Want another store?
 					</button>
