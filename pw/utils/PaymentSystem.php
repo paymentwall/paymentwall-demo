@@ -5,7 +5,7 @@ class PaymentSystem {
 	{
 		$parameters = array(
 			'country_code' => $country['code'],
-			'key' => PUBLIC_KEY,
+			'key' => $_SESSION['publicKey'],
 			'sign_version' => 2
 		);
 

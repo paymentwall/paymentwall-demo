@@ -48,3 +48,11 @@ $(function(){
 	}
 	});
 });
+
+
+function sendId(id) {
+	console.log(id.options[id.selectedIndex].value);
+	var hidden = document.getElementById('hidden');
+	hidden.value = id.options[id.selectedIndex].value;
+
+}

@@ -2,6 +2,11 @@
 session_start();
 unset($_SESSION['token']);
 
+$_SESSION['publicKey'] = "e14323f11ea9326b5b38b9f6ce999931";
+$_SESSION['secretKey'] = "8caa51ff0af65e89c0c48b8bc33a1260";
+$_SESSION['apiType'] = 2;
+$_SESSION['signatureVersion'] = 2;
+
 require_once('pw/utils/bootstrap.php');
 include('provider.php');
 

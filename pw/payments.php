@@ -39,7 +39,6 @@
 
 		exit($e->getMessage());		
 	}
-
 ?>
 
 <html>

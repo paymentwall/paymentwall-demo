@@ -4,8 +4,8 @@ class GeoLocator {
 	public function locate($ip)
 	{
 		$parameters = array(
-			'key' => PUBLIC_KEY,
-			'uid' => USER_ID,
+			'key' => $_SESSION['publicKey'],
+			'uid' => "user@example.com",
 			'user_ip' => $ip
 		);
 

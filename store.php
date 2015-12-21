@@ -11,8 +11,8 @@ if(!isset($_SESSION['token'])) {
         // Try to get an access token using the authorization code grant.
         $accessToken = $provider->getAccessToken('authorization_code', [
             'code'              => $code,
-            'resource_owner_id' => PUBLIC_KEY,
-            'client_secret'     => PRIVATE_KEY,
+            'resource_owner_id' => "e14323f11ea9326b5b38b9f6ce999931",
+            'client_secret'     => "8caa51ff0af65e89c0c48b8bc33a1260",
             'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/store.php'
         ]);
 
@@ -37,40 +37,59 @@ $res = $client->get('https://api.paymentwall.com/pwapi/merchant/application', [
 
 $body = json_decode($res->getBody());
 
-// Fetch the authorization URL from the provider; this returns the
-// urlAuthorize option and generates and applies any necessary parameters
-// (e.g. state).
-$authorizationUrl = $provider->getAuthorizationUrl();
+if (isset($_GET['id'])) {
+	$_SESSION['projectId'] = $_GET['id'];
+	$res = $client->get('https://api.paymentwall.com/pwapi/merchant/application/' . $_GET['id'], [
+	    'query' => ['access_token' => $_SESSION['token'], 'version' => '1']
+	]);
 
-// Get the state generated for you and store it to the session.
-$_SESSION['oauth2state'] = urlencode($provider->getState());
+	$store = json_decode($res->getBody());
 
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-    $ip = trim(end($ipAddresses));
-} else {
-    $ip = $_SERVER['REMOTE_ADDR'];
-}
+	if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+	    $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+	    $ip = trim(end($ipAddresses));
+	} else {
+	    $ip = $_SERVER['REMOTE_ADDR'];
+	}
 
-$locator = new GeoLocator;
-$country = $locator->locate($ip);
+	$parameters = array(
+		'key' => $store->key,
+		'uid' => "test@example.com",
+		'user_ip' => $ip
+	);
 
-/* 
-	Pulls list of payment system options available for this country via Payment Systems API
-*/
+	$url = 'https://api.paymentwall.com/api/rest/country?' . http_build_query($parameters);
 
-try {
+	$result = file_get_contents($url);
+	$country = json_decode($result, true);
 
-	$paymentSystems = new PaymentSystem;
-	$list = $paymentSystems->getPaymentSystemsFor($country);
+	Paymentwall_Config::getInstance()->set(array(
+	    'api_type' => $store->api_type,
+	    'public_key' => $store->key,
+	    'private_key' => $store->secret
+	));
+
+	$parameters = array(
+		'country_code' => $country['code'],
+		'key' => $store->key,
+		'sign_version' => 2
+	);
+
+	$parameters['sign'] = (new Paymentwall_Signature_Widget())->calculate(
+	    $parameters,
+	    2
+	);
+
+	$url = 'https://api.paymentwall.com/api/payment-systems/?' . http_build_query($parameters);
+
+	$result = @file_get_contents($url);
+
+	if (!$result) throw new Exception("Error!");
 	
-} catch (Exception $e) {
+	$paymentSystems = json_decode($result, true);
 
-	exit($e->getMessage());		
 }
-
 ?>
-
 
 <html>
 	<head>
@@ -78,40 +97,58 @@ try {
 	    <title>Paymentwall Demo Page</title>
 		<link rel="stylesheet" type="text/css" href="assets/index.css">
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	    <script src="https://api.paymentwall.com/brick/brick.1.4.js"> </script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script src="pw/public/index.js"></script>
 	</head>
 
 	<body>
 	<div class="wrapper">
 			<div class="middle">
-				<a href="<?php echo $authorizationUrl; ?>">
+				<a href="/create.php">
 					<button id="yellow" type="button" class="btn btn-default btn-lg">
-					    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Want your own store?
+					    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Want another store?
 					</button>
 				</a>
 			</div>
 
 			<img src="pw/public/pw.png" class="logo">
+
+			<div class="container">
+			  <form role="form" action="/store.php" method="GET">
+			    <div class="form-group">
+			      <label for="sel1">Select store (select one):</label>
+			      <select class="form-control input-medium" id="sel1" style="width: 60%" onchange="sendId(this)">
+		      		<?php foreach ($body as $store): ?>
+						<option value="<?php echo $store->id; ?>"><?php echo $store->name; ?></option>
+					<?php endforeach; ?>
+			      </select>
+			    </div>
+			    <input type="hidden" id="hidden" value="" name="id">
+			    <input type="submit" value="Submit" class="btn btn-default">
+			  </form>
+			</div>
 		
 			<div class="paymentMethods">
+			<h1><?php echo $store->name ?> store</h1>
 				<h2>Amount: 9.99 USD</h2>
-				<div>
-					<h1>Payment methods:</h1>
-				</div>
-				<div class="blue">
-					<?php foreach ($list as $value): ?>
-						<div class="option">
-							<div>
-								<img src="<?php echo $value['img_url'] ?>">								
-							</div>
-							<p><?php echo $value['name'] ; ?></p>
-							<input type="radio" name="radio" value="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>">					
-						</div>			
-					<?php endforeach; ?>
-				</div>				
+				<?php if (isset($_GET['id'])): ?> 
+					<div>
+						<h3>Payment methods:</h3>
+					</div>
+					<div class="blue">
+						<?php foreach ($paymentSystems as $value): ?>
+							<div class="option">
+								<div>
+									<img src="<?php echo $value['img_url'] ?>">								
+								</div>
+								<p><?php echo $value['name'] ; ?></p>
+								<input type="radio" name="radio" value="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>">					
+							</div>			
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>			
 			</div>
 			<div id="loading" class="loading">
 			<img src="../assets/img/loading.gif">

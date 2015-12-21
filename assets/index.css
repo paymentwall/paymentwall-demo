@@ -32,10 +32,9 @@ body {
 
 .blue {
 	border-radius: 25px;
-	background-color: #0e7d9a;
+	background-color: rgb(86, 164, 184);
 	text-align: center;
 	margin-top: 2em;
-	opacity: 0.7;
 }
 
 p {
@@ -70,3 +69,4 @@ iframe, .brick-wrapper{
 	margin: 0 auto;
 	display: none;
 }
+
