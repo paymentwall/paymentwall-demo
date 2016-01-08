@@ -13,7 +13,10 @@ $ git clone repo
 ```bash
 $ composer install
 ```
-
-3 - Run the app on your server
+3 - Input your project keys
+  
+Replace YOUR_PUBLIC_KEY to your project's public key and YOUR_PRIVATE_KEY to your project's private/secret key.
+  
+4 - Run the app on your server
 
 *Enable "evaluation mode" in your project's settings
