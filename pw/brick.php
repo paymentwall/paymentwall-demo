@@ -2,7 +2,7 @@
     require_once('utils/bootstrap.php');
 
     Paymentwall_Config::getInstance()->set(array(
-	    'private_key' => 't_6618df4820214dd250187c9ecd6996'
+	    'private_key' => YOUR_BRICK_PRIVATE_KEY
 	));
 
 	$parameters = $_POST;

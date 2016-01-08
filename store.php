@@ -11,8 +11,8 @@ if(!isset($_SESSION['token'])) {
         // Try to get an access token using the authorization code grant.
         $accessToken = $provider->getAccessToken('authorization_code', [
             'code'              => $code,
-            'resource_owner_id' => "e14323f11ea9326b5b38b9f6ce999931",
-            'client_secret'     => "8caa51ff0af65e89c0c48b8bc33a1260",
+            'resource_owner_id' => YOUR_PUBLIC_KEY,
+            'client_secret'     => YOUR_PRIVATE_KEY,
             'redirect_uri'      => 'http://' . $_SERVER['HTTP_HOST'] . '/store.php'
         ]);
 

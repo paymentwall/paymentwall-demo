@@ -5,7 +5,7 @@ $(function(){
 		var option = $('input[type="radio"]:checked').val();
 		if(option == 'cc') {
 			  var brick = new Brick({
-			    public_key: 't_34476d9e5ec696b70515f7d104151b',
+			    public_key: YOUR_BRICK_PUBLIC_KEY,
 			    amount: 9.99,
 			    currency: 'USD',
 			    container: 'iframe',
