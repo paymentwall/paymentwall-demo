@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 if(sizeof($_POST) > 0) {
 	include('provider.php');
 
