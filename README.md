@@ -2,6 +2,8 @@
 
 The purpose of this demo app is to show how Paymentwall Bridge API works and how you as platform can use it.
  
+## Live Demo
+[https://tranquil-stream-8863.herokuapp.com/](https://tranquil-stream-8863.herokuapp.com/)
  
 ## Installation
 1 - Clone the repo
